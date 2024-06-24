@@ -1,0 +1,30 @@
+server:
+  port: 9999
+
+spring:
+  profiles:
+    active: local
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+  flyway:
+    locations: classpath:db/migration
+    enabled: true
+
+custom:
+  aws:
+    iot:
+      endPoint: "${IOT_ENDPOINT:a16vfhk388057-ats.iot.ap-northeast-2.amazonaws.com}"
+      certificatePath: "${IOT_CERT_PATH:${user.dir}/auth/c203fd2b13eeecf2572d1296c2d95a191b10997d23f5efd4756ffa2f3982854d/certificate.pem.crt}"
+      privateKeyPath: "${IOT_PRIVATE_KEY_PATH:${user.dir}/auth/c203fd2b13eeecf2572d1296c2d95a191b10997d23f5efd4756ffa2f3982854d/private.pem.key}"
+  thing:
+    name: "${THING_NAME:530c8640-2cba-490c-b53f-461ce0ba71ac}"
