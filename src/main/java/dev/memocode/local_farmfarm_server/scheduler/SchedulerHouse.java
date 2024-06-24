@@ -95,7 +95,7 @@ public class SchedulerHouse {
                         .data(request)
                         .build();
 
-                mqttSender.send("response/%s".formatted(request.getHouseId().toString()), message);
+                mqttSender.sendResponse(request.getHouseId(), message);
             });
         }
 

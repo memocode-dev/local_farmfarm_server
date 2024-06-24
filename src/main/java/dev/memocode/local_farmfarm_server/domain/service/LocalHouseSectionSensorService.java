@@ -36,9 +36,6 @@ public class LocalHouseSectionSensorService {
 
     private final MqttSender mqttSender;
 
-    @Value("${spring.profiles.active}")
-    private String profile;
-
     @Transactional
     public void upsertLocalHouseSectionSensor(@Valid UpsertLocalHouseSectionSensorRequest request) {
         Optional<LocalHouseSectionSensor> _localHouseSectionSensor =
@@ -66,8 +63,7 @@ public class LocalHouseSectionSensorService {
                 .data(request)
                 .build();
 
-        String topic = profile.equals("prod") ? "prod/response/%s" : "dev/response/%s";
-        mqttSender.send(topic.formatted(request.getHouseId().toString()), message);
+        mqttSender.sendResponse(request.getHouseId(), message);
     }
 
     @Transactional

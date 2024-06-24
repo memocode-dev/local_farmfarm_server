@@ -38,9 +38,6 @@ public class LocalHouseSectionService {
 
     private final MqttSender mqttSender;
 
-    @Value("${spring.profiles.active}")
-    private String profile;
-
     @Transactional
     public void upsertLocalHouseSection(@Valid UpsertLocalHouseSectionRequest request) {
         Optional<LocalHouseSection> _localHouseSection =
@@ -68,8 +65,7 @@ public class LocalHouseSectionService {
                 .data(request)
                 .build();
 
-        String topic = profile.equals("prod") ? "prod/response/%s" : "dev/response/%s";
-        mqttSender.send(topic.formatted(localHouseSection.getLocalHouse().getHouseId().toString()), message);
+        mqttSender.sendResponse(localHouseSection.getLocalHouse().getHouseId(), message);
     }
 
     @Transactional

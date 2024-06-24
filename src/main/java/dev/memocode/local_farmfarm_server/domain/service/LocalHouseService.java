@@ -32,9 +32,6 @@ public class LocalHouseService {
 
     private final MqttSender mqttSender;
 
-    @Value("${spring.profiles.active}")
-    private String profile;
-
     @Transactional
     public void upsertLocalHouse(@Valid UpsertLocalHouseRequest request) {
         localHouseRepository.findByHouseId(request.getHouseId())
@@ -54,8 +51,8 @@ public class LocalHouseService {
                 .data(request)
                 .build();
 
-        String topic = profile.equals("prod") ? "prod/response/%s" : "dev/response/%s";
-        mqttSender.send(topic.formatted(localHouse.getHouseId().toString()), message);
+        mqttSender.sendResponse(localHouse.getHouseId(), message);
+
     }
 
     public void syncLocalHouses() {
