@@ -12,6 +12,7 @@ import dev.memocode.local_farmfarm_server.mqtt.dto.Mqtt5Message;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +35,9 @@ public class LocalHouseSectionSensorService {
     private final LocalHouseSectionSensorConverter localHouseSectionSensorConverter;
 
     private final MqttSender mqttSender;
+
+    @Value("${spring.profiles.active}")
+    private String profile;
 
     @Transactional
     public void upsertLocalHouseSectionSensor(@Valid UpsertLocalHouseSectionSensorRequest request) {
@@ -62,7 +66,8 @@ public class LocalHouseSectionSensorService {
                 .data(request)
                 .build();
 
-        mqttSender.send("response/%s".formatted(request.getHouseId().toString()), message);
+        String topic = profile.equals("prod") ? "prod/response/%s" : "dev/response/%s";
+        mqttSender.send(topic.formatted(request.getHouseId().toString()), message);
     }
 
     @Transactional

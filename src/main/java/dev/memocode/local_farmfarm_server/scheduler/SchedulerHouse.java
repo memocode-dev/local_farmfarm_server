@@ -40,6 +40,7 @@ public class SchedulerHouse {
 
     private final MqttSender mqttSender;
 
+    @Transactional(readOnly = true)
     @Scheduled(fixedDelay = 300000)
     public void scheduleHouse() throws InterruptedException {
         log.info("do scheduling local greenhouse");
