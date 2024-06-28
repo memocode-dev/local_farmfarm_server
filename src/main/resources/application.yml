@@ -23,8 +23,8 @@ spring:
 custom:
   aws:
     iot:
-      endPoint: "${IOT_ENDPOINT:a16vfhk388057-ats.iot.ap-northeast-2.amazonaws.com}"
-      certificatePath: "${IOT_CERT_PATH:${user.dir}/auth/c203fd2b13eeecf2572d1296c2d95a191b10997d23f5efd4756ffa2f3982854d/certificate.pem.crt}"
-      privateKeyPath: "${IOT_PRIVATE_KEY_PATH:${user.dir}/auth/c203fd2b13eeecf2572d1296c2d95a191b10997d23f5efd4756ffa2f3982854d/private.pem.key}"
+      endPoint: "${IOT_ENDPOINT}"
+      certificatePath: "${IOT_CERT_PATH:${user.dir}/auth/certificate.pem.crt}"
+      privateKeyPath: "${IOT_PRIVATE_KEY_PATH:${user.dir}/auth/private.pem.key}"
   thing:
-    name: "${THING_NAME:530c8640-2cba-490c-b53f-461ce0ba71ac}"
+    name: "${THING_NAME}"
